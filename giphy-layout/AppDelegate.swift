@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         window = UIWindow()
+        let feed = MainFeedViewController(nibName: "MainFeedViewController", bundle: .main)
+        window?.rootViewController = feed
         window?.makeKeyAndVisible()
         return true
     }
