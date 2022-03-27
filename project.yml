@@ -1,0 +1,34 @@
+name: GyphyLayout
+options:
+  deploymentTarget:
+    iOS: '15.0'
+  groupSortPosition: top
+  postGenCommand: pod install
+  bundleIdPrefix: xyz.sashenka
+settings:
+  base:
+    MARKETING_VERSION: 1.0.0
+    CURRENT_PROJECT_VERSION: 1
+    SWIFT_VERSION: 5.0
+  configs:
+    Development:
+      PRODUCT_BUNDLE_IDENTIFIER: xyz.sashenka.gyphy-layout
+configs:
+  Development: debug
+targets:
+  GyphyLayout:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources: [giphy-layout]
+    settings: 
+      base:
+        TARGETED_DEVICE_FAMILY: 1
+        # INFOPLIST_FILE: "$(SRCROOT)/Info.plist"
+        SUPPORTED_PLATFORMS: iphonesimulator iphoneos
+        PRODUCT_NAME: GYPHYLayout
+        EXECUTABLE_NAME: "$(PRODUCT_NAME)"
+        PRODUCT_MODULE_NAME: "$(PRODUCT_NAME)"
+      configs:
+        Development:
+          DISPLAY_NAME: GYPHYLayout)
