@@ -8,10 +8,7 @@
 import UIKit
 
 protocol MosaicLayoutDelegate: AnyObject {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        heightForItemAtIndexPath indexPath: IndexPath
-    ) -> CGFloat
+    
 }
 
 struct MosaicLayoutConfiguration {
@@ -38,32 +35,37 @@ final class MosaicLayout: UICollectionViewLayout {
     // MARK: - Public properties
     
     private(set) var configuration: MosaicLayoutConfiguration = .default
-    
+    private(set) var feedModels: [FeedItemModel] = []
     weak var delegate: MosaicLayoutDelegate?
     
     override var collectionViewContentSize: CGSize {
-        CGSize(width: contentWidth, height: contentHeight)
+        CGSize(width: contentWidth, height: contentHeight + 50)
     }
     
     override func invalidateLayout() {
+        super.invalidateLayout()
         cache.removeAll()
+    }
+    
+    func updateFeedModel(feedModels: [FeedItemModel]) {
+        self.feedModels = feedModels
+        invalidateLayout()
     }
     
     override func prepare() {
         guard cache.isEmpty, let collectionView = collectionView else { return }
-        
+
         let numberOfColumns = configuration.numberOfColumns
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
         let horizontalOffset: [CGFloat] = (0..<numberOfColumns).map { CGFloat($0) * columnWidth }
         var verticalOffset: [CGFloat] = .init(repeating: 0, count: numberOfColumns)
         
-        var currentColumn = 0
         for item in 0..<collectionView.numberOfItems(inSection: .zero) {
-//            let currentColumn = item % numberOfColumns
+            let currentColumn = verticalOffset.enumerated().max(by: { $0.element >= $1.element })?.offset ?? 0
             
             let indexPath = IndexPath(item: item, section: .zero)
-            let itemHeight = delegate?.collectionView(collectionView, heightForItemAtIndexPath: indexPath) ?? 180
-//                             ?? defaultItemHeight(in: currentColumn, columnWidth: columnWidth)
+            let itemSize = feedModels[item]
+            let itemHeight = itemSize.ratio * columnWidth
             
             let height = configuration.cellsOffset * 2 + itemHeight
             let frame = CGRect(x: horizontalOffset[currentColumn],
@@ -78,7 +80,6 @@ final class MosaicLayout: UICollectionViewLayout {
             
             contentHeight = max(contentHeight, frame.maxY)
             verticalOffset[currentColumn] = verticalOffset[currentColumn] + height
-            currentColumn = currentColumn < (numberOfColumns - 1) ? (currentColumn + 1) : 0
         }
     }
     
@@ -88,18 +89,5 @@ final class MosaicLayout: UICollectionViewLayout {
     
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         cache[indexPath.item]
-    }
-    
-    // MARK: - Private methods
-    
-    private func defaultItemHeight(in column: Int, columnWidth: CGFloat) -> CGFloat {
-        if column % configuration.numberOfColumns == .zero {
-            // Square shape
-            return columnWidth
-        }
-        else {
-            // or rectangle
-            return columnWidth * ([CGFloat(0.5), 1, 2].randomElement() ?? CGFloat(0.5))
-        }
     }
 }

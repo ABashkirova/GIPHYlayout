@@ -21,7 +21,7 @@
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="HQY-Ls-bTi">
                     <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <collectionViewLayout key="collectionViewLayout" id="Nda-tH-XCF" customClass="MosaicLayout" customModule="giphy_layout" customModuleProvider="target"/>
+                    <collectionViewLayout key="collectionViewLayout" id="xKJ-rX-kIG" customClass="MosaicLayout" customModule="giphy_layout" customModuleProvider="target"/>
                 </collectionView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

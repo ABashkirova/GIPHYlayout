@@ -16,7 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         window = UIWindow()
-        let feed = MainFeedViewController(nibName: "MainFeedViewController", bundle: .main)
+        let requestService = RequestServiceURLSession()
+        let giphyService = TrendingGifsService(key: EnvironmentConfiguration().apiKey, service: requestService)
+        let feed = MainFeedConfigurator(
+            trendingGifLoader: giphyService,
+            gifLoader: ImageLoader(service: requestService))
+            .configure()
         window?.rootViewController = feed
         window?.makeKeyAndVisible()
         return true

@@ -8,11 +8,11 @@
 import Foundation
 
 struct GifsModel: Codable {
-    let data: [GifInfo]
+    let data: [GiphyDataInfo]
     let pagination: Pagination
 }
 
-struct GifInfo: Codable {
+struct GiphyDataInfo: Codable {
     /// By default, this is almost always GIF.
     let type: String
     /// This GIF's unique ID
