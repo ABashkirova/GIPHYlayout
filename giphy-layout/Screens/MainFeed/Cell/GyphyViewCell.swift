@@ -17,6 +17,7 @@ class GyphyViewCell: CollectionViewCell<GyphyImagePresenter>, NibReusable {
             return
         }
         presenter.setView(view: self)
+        startLoadingAnimating()
     }
     
     override func prepareForReuse() {
@@ -27,6 +28,7 @@ class GyphyViewCell: CollectionViewCell<GyphyImagePresenter>, NibReusable {
     
     func updateImage(data: Data) {
         imageView.animate(withGIFData: data)
+        cleanLoadingAnimation()
     }
     
     func startAnimation() {
@@ -43,6 +45,44 @@ class GyphyViewCell: CollectionViewCell<GyphyImagePresenter>, NibReusable {
     func endAnimating() {
         imageView.stopAnimatingGIF()
         presenter?.isOneTimeDisplayed = true
+    }
+    
+    private func startLoadingAnimating() {
+        cleanLoadingAnimation()
+        let gradientLayer = addGradientLayer()
+        colorView.layer.addSublayer(gradientLayer)
+        let animation = addAnimation()
+        gradientLayer.add(animation, forKey: animation.keyPath)
+    }
+    
+    private func cleanLoadingAnimation() {
+        colorView.layer.sublayers?.forEach { layer in
+            layer.removeAllAnimations()
+            layer.removeFromSuperlayer()
+        }
+    }
+    
+    private func addAnimation() -> CABasicAnimation {
+        let animation = CABasicAnimation(keyPath: "locations")
+        animation.fromValue = [-1.0, -0.5, 0.0]
+        animation.toValue = [1.0, 1.5, 2.0]
+        animation.repeatCount = .infinity
+        animation.duration = 0.8
+        return animation
+    }
+    
+    private func addGradientLayer() -> CAGradientLayer {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = colorView.frame
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
+        gradientLayer.colors = [
+            UIColor.white.withAlphaComponent(0),
+            UIColor.white.withAlphaComponent(0.6),
+            UIColor.white.withAlphaComponent(0)
+        ].map { $0.cgColor }
+        gradientLayer.locations = [0.0, 0.5, 1.0]
+        return gradientLayer
     }
 }
 
