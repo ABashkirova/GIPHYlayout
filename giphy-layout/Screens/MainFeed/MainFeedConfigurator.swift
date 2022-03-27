@@ -17,7 +17,7 @@ struct MainFeedConfigurator {
         self.gifLoader = gifLoader
     }
     
-    func configure() -> UIViewController {
+    func configure() -> MainFeedViewController {
         let presenter = MainFeedPresenter(trendingGifLoader: trendingGifLoader, gifLoader: gifLoader)
         let vc = MainFeedViewController(presenter: presenter)
         let dataSource = MainFeedViewDataSource()

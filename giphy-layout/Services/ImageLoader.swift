@@ -8,8 +8,12 @@
 import Foundation
 import UIKit
 
+protocol ImageHolder {
+    var data: Data { get set }
+}
+
 protocol ImageLoaderProtocol: AnyObject {
-    func load(url: URL, item: GyphyImagePresenter, completion: @escaping (GyphyImagePresenter, Data?) -> Void)
+    func load(url: URL, completion: @escaping (Data?) -> Void)
 }
 
 class ImageLoader: ImageLoaderProtocol {
@@ -17,20 +21,20 @@ class ImageLoader: ImageLoaderProtocol {
     
     private let cachedImages = NSCache<NSURL, NSData>()
     
-    private var loadingResponses = [NSURL: [(GyphyImagePresenter, Data?) -> Void]]()
+    private var loadingResponses = [NSURL: [(Data?) -> Void]]()
     
     init(service: RequestServiceURLSession) {
         self.service = service
         cachedImages.totalCostLimit = 100_000_000
     }
     
-    func load(url: URL, item: GyphyImagePresenter, completion: @escaping (GyphyImagePresenter, Data?) -> Void) {
+    func load(url: URL, completion: @escaping (Data?) -> Void) {
         guard let nsUrl = NSURL(string: url.absoluteString) else {
-            completion(item, nil)
+            completion(nil)
             return
         }
         if let cachedImage = data(url: nsUrl) {
-            completion(item, Data(referencing: cachedImage))
+            completion(Data(referencing: cachedImage))
             return
         }
     
@@ -42,12 +46,12 @@ class ImageLoader: ImageLoaderProtocol {
         
         service.request(GifImageDataEndpoint(url: url)) { [weak self] result in
             guard case .success(let data) = result, let listeners = self?.loadingResponses[nsUrl] else {
-                completion(item, nil)
+                completion(nil)
                 return
             }
             self?.cachedImages.setObject(NSData(data: data), forKey: nsUrl, cost: data.count)
             listeners.forEach { completion in
-                completion(item, data)
+                completion(data)
             }
             self?.loadingResponses[nsUrl] = nil
         }

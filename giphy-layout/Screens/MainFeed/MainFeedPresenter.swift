@@ -11,6 +11,7 @@ protocol MainFeedPresentationOutput {
     func moduleDidLoad()
     func willDisplay(at indexPath: IndexPath)
     func endDisplaying(at indexPath: IndexPath)
+    func select(at indexPath: IndexPath)
 }
 
 final class MainFeedPresenter: MainFeedPresentationOutput {
@@ -51,12 +52,16 @@ final class MainFeedPresenter: MainFeedPresentationOutput {
     }
     
     func loadGif(for presenter: GyphyImagePresenter) {
-        gifLoader.load(url: presenter.url, item: presenter) { item, image in
+        gifLoader.load(url: presenter.url) { image in
             guard let image = image else {
                 return
             }
             presenter.updateImage(image)
         }
+    }
+    
+    func select(at indexPath: IndexPath) {
+        interactionInput?.routeToPreview(with: cellPresenters[indexPath.row].id)
     }
     
     private func loadNext() {
@@ -113,6 +118,6 @@ private extension GiphyDataInfo {
             return nil
         }
         let feedInfo = FeedItemModel(height: height, width: width)
-        return GyphyImagePresenter(url: url, feedItem: feedInfo)
+        return GyphyImagePresenter(id: id, url: url, feedItem: feedInfo)
     }
 }

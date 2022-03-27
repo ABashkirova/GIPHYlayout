@@ -9,12 +9,9 @@ import Foundation
 
 struct GifsModel: Codable {
     let data: [GiphyDataInfo]
-    let pagination: Pagination
 }
 
 struct GiphyDataInfo: Codable {
-    /// By default, this is almost always GIF.
-    let type: String
     /// This GIF's unique ID
     let id: String
     /// The unique URL for this GIF
@@ -37,15 +34,4 @@ struct GiphyImageInfo: Codable {
     let width: String
     /// The height of this GIF in pixels.
     let height: String
-    /// The URL for this GIF in .MP4 format.
-    let mp4: String?
-}
-
-struct Pagination: Codable {
-    /// Position in pagination.
-    let offset: Int
-    /// Total number of items available (not returned on every endpoint).
-    let totalCount: Int
-    /// Total number of items returned.
-    let count: Int
 }

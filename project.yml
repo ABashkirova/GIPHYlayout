@@ -24,11 +24,10 @@ targets:
     settings: 
       base:
         TARGETED_DEVICE_FAMILY: 1
-        # INFOPLIST_FILE: "$(SRCROOT)/Info.plist"
         SUPPORTED_PLATFORMS: iphonesimulator iphoneos
         PRODUCT_NAME: GYPHYLayout
         EXECUTABLE_NAME: "$(PRODUCT_NAME)"
         PRODUCT_MODULE_NAME: "$(PRODUCT_NAME)"
       configs:
         Development:
-          DISPLAY_NAME: GYPHYLayout)
+          DISPLAY_NAME: GYPHYLayout

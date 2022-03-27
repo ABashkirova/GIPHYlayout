@@ -9,12 +9,15 @@ import UIKit
 
 protocol MainFeedInteractionInput: AnyObject {
     func update(cellPresenters: [GyphyImagePresenter])
+    func routeToPreview(with id: String)
 }
 
 class MainFeedViewController: UIViewController, MainFeedInteractionInput {
     @IBOutlet weak var collectionView: UICollectionView!
     private(set) var presenter: MainFeedPresentationOutput?
     var dataSource: MainFeedViewDataSource?
+    
+    var routeToPreview: ((String) -> UIViewController?)?
     
     convenience init(presenter: MainFeedPresentationOutput) {
         self.init()
@@ -43,6 +46,10 @@ class MainFeedViewController: UIViewController, MainFeedInteractionInput {
         collectionView.reloadData()
     }
     
+    func routeToPreview(with id: String) {
+        guard let vc = routeToPreview?(id) else { return }
+        present(vc, animated: true)
+    }
 }
 
 extension MainFeedViewController: UICollectionViewDelegateFlowLayout {
@@ -56,5 +63,9 @@ extension MainFeedViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         presenter?.endDisplaying(at: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter?.select(at: indexPath)
     }
 }

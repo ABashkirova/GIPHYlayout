@@ -10,12 +10,14 @@ import UIKit
 
 class GyphyImagePresenter: CellPresenter {
     let reusableCellClass: Reusable.Type = GyphyViewCell.self
+    let id: String
     let url: URL
     let feedItem: FeedItemModel
     private(set) weak var view: GyphyViewCell?
     var isOneTimeDisplayed = false
     
-    init(url: URL, feedItem: FeedItemModel) {
+    init(id: String, url: URL, feedItem: FeedItemModel) {
+        self.id = id
         self.url = url
         self.feedItem = feedItem
     }
