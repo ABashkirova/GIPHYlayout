@@ -67,7 +67,6 @@ final class GifPreviewViewController: UIViewController, GifPreviewInteractionInp
         resultMessage.text = message.title
         resultMessage.sizeToFit()
         resultContainer.alpha = 1
-        resultContainer.layoutIfNeeded()
         UIView.animate(withDuration: 0.5, delay: 3, options: [.curveEaseInOut]) {
             self.resultContainer.alpha = 0
         } completion: { _ in }

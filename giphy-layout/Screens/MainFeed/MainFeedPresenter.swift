@@ -105,7 +105,7 @@ final class MainFeedPresenter: MainFeedPresentationOutput {
     }
     
     private func handleError() {
-        
+        interactionInput?.showMessage(.failureLoading)
     }
 }
 

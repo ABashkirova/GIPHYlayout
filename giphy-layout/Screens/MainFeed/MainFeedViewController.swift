@@ -10,10 +10,14 @@ import UIKit
 protocol MainFeedInteractionInput: AnyObject {
     func update(cellPresenters: [GyphyImagePresenter])
     func routeToPreview(with id: String)
+    func showMessage(_ message: FeedMessage)
 }
 
 class MainFeedViewController: UIViewController, MainFeedInteractionInput {
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var messageContainer: UIView!
+    @IBOutlet weak var messageLabel: UILabel!
+    
     private(set) var presenter: MainFeedPresentationOutput?
     var dataSource: MainFeedViewDataSource?
     
@@ -49,6 +53,15 @@ class MainFeedViewController: UIViewController, MainFeedInteractionInput {
     func routeToPreview(with id: String) {
         guard let vc = routeToPreview?(id) else { return }
         present(vc, animated: true)
+    }
+    
+    func showMessage(_ message: FeedMessage) {
+        messageLabel.text = message.title
+        messageLabel.sizeToFit()
+        messageContainer.alpha = 1
+        UIView.animate(withDuration: 0.5, delay: 3, options: [.curveEaseInOut]) {
+            self.messageContainer.alpha = 0
+        } completion: { _ in }
     }
 }
 

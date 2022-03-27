@@ -48,7 +48,10 @@ final class GifPreviewPresenter: GifPreviewPresentationOutput {
             return 
         }
         gifLoader.load(url: url) { [weak self] result in
-            guard let data = result else { return }
+            guard let data = result else {
+                self?.interactionInput?.showMessage(.errorLoading)
+                return
+            }
             self?.updateImage(data: data)
         }
     }
@@ -104,5 +107,4 @@ final class GifPreviewPresenter: GifPreviewPresentationOutput {
         guard let data = data else { return }
         interactionInput?.share(data: data)
     }
-    
 }

@@ -4,12 +4,15 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainFeedViewController" customModule="giphy_layout" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainFeedViewController" customModule="GYPHYLayout" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="HQY-Ls-bTi" id="d3z-j7-UWW"/>
+                <outlet property="messageContainer" destination="f0K-3J-YhY" id="Zuw-f8-sMJ"/>
+                <outlet property="messageLabel" destination="bks-JT-DQX" id="8mr-cO-qPH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,18 +24,43 @@
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="HQY-Ls-bTi">
                     <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <collectionViewLayout key="collectionViewLayout" id="xKJ-rX-kIG" customClass="MosaicLayout" customModule="giphy_layout" customModuleProvider="target"/>
+                    <collectionViewLayout key="collectionViewLayout" id="xKJ-rX-kIG" customClass="MosaicLayout" customModule="GYPHYLayout" customModuleProvider="target"/>
                 </collectionView>
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f0K-3J-YhY">
+                    <rect key="frame" x="182" y="423.5" width="50" height="49"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="     " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bks-JT-DQX">
+                            <rect key="frame" x="16" y="16" width="18" height="17"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                            <color key="textColor" systemColor="linkColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.47999999999999998" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="bks-JT-DQX" firstAttribute="leading" secondItem="f0K-3J-YhY" secondAttribute="leading" constant="16" id="798-Pg-ucg"/>
+                        <constraint firstAttribute="bottom" secondItem="bks-JT-DQX" secondAttribute="bottom" constant="16" id="8sk-cy-jvD"/>
+                        <constraint firstAttribute="trailing" secondItem="bks-JT-DQX" secondAttribute="trailing" constant="16" id="ZSw-eX-ic8"/>
+                        <constraint firstItem="bks-JT-DQX" firstAttribute="top" secondItem="f0K-3J-YhY" secondAttribute="top" constant="16" id="ZcT-gH-0ne"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="HQY-Ls-bTi" secondAttribute="trailing" id="8Vf-dr-beU"/>
+                <constraint firstItem="f0K-3J-YhY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="EF1-QW-dFj"/>
                 <constraint firstItem="HQY-Ls-bTi" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="IHl-9X-6bE"/>
                 <constraint firstItem="HQY-Ls-bTi" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="NgR-Ac-dmy"/>
                 <constraint firstAttribute="bottom" secondItem="HQY-Ls-bTi" secondAttribute="bottom" id="NwX-PG-Gar"/>
+                <constraint firstItem="f0K-3J-YhY" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="f1c-gh-Y1o"/>
             </constraints>
             <point key="canvasLocation" x="139" y="94"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>
