@@ -51,7 +51,11 @@ final class MainFeedPresenter: MainFeedPresentationOutput {
         cellPresenters[indexPath.row].didEndDisplaying()
     }
     
-    func loadGif(for presenter: GyphyImagePresenter) {
+    func select(at indexPath: IndexPath) {
+        interactionInput?.routeToPreview(with: cellPresenters[indexPath.row].id)
+    }
+    
+    private func loadGif(for presenter: GyphyImagePresenter) {
         gifLoader.load(url: presenter.url) { image in
             guard let image = image else {
                 return
@@ -60,42 +64,23 @@ final class MainFeedPresenter: MainFeedPresentationOutput {
         }
     }
     
-    func select(at indexPath: IndexPath) {
-        interactionInput?.routeToPreview(with: cellPresenters[indexPath.row].id)
-    }
-    
     private func loadNext() {
         guard canLoadNextBatch else { return }
         canLoadNextBatch = false
         
-        trendingGifLoader.getGifs(offset: cellPresenters.count) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let model):
-                self.addNewGifs(gifs: model)
-            case .failure:
-                self.handleError()
-            }
-            self.canLoadNextBatch = true
-        }
+        loadFeedItems(offset: cellPresenters.count)
     }
     
-    private func loadFeedItems() {
-        trendingGifLoader.getGifs { [weak self] result in
+    private func loadFeedItems(offset: Int = 0) {
+        trendingGifLoader.getGifs(offset: offset) { [weak self] result in
             switch result {
             case .success(let model):
-                self?.setup(gifs: model)
-            case .failure:
-                self?.handleError()
+                self?.addNewGifs(gifs: model)
+            case .failure(let error):
+                self?.handleError(error)
             }
             self?.canLoadNextBatch = true
         }
-    }
-    
-    private func setup(gifs: GifsModel) {
-        let cellPresenters = gifs.data.compactMap { $0.cellPresenter }
-        interactionInput?.update(cellPresenters: cellPresenters)
-        self.cellPresenters = cellPresenters
     }
     
     private func addNewGifs(gifs: GifsModel) {
@@ -104,7 +89,7 @@ final class MainFeedPresenter: MainFeedPresentationOutput {
         self.cellPresenters = cellPresenters
     }
     
-    private func handleError() {
+    private func handleError(_ error: Error) {
         interactionInput?.showMessage(.failureLoading)
     }
 }

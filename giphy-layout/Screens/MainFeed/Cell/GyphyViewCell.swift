@@ -8,7 +8,7 @@
 import UIKit
 import Gifu
 
-class GyphyViewCell: CollectionViewCell<GyphyImagePresenter>, NibReusable {
+final class GyphyViewCell: CollectionViewCell<GyphyImagePresenter>, NibReusable {
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var imageView: GIFImageView!
     

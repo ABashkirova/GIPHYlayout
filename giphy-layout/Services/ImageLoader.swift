@@ -16,7 +16,7 @@ protocol ImageLoaderProtocol: AnyObject {
     func load(url: URL, completion: @escaping (Data?) -> Void)
 }
 
-class ImageLoader: ImageLoaderProtocol {
+final class ImageLoader: ImageLoaderProtocol {
     private let service: RequestServiceURLSession
     
     private let cachedImages = NSCache<NSURL, NSData>()

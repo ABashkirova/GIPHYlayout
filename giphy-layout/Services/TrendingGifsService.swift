@@ -12,11 +12,11 @@ enum TrendingGifsServiceError: Error {
 }
 
 protocol TrendingGifsServiceProtocol {
-    func getGifs(offset: Int, completion: @escaping  (Result<GifsModel, TrendingGifsServiceError>) -> Void)
+    func getGifs(offset: Int, completion: @escaping (Result<GifsModel, TrendingGifsServiceError>) -> Void)
 }
 
 extension TrendingGifsServiceProtocol {
-    func getGifs(completion: @escaping  (Result<GifsModel, TrendingGifsServiceError>) -> Void) {
+    func getGifs(completion: @escaping (Result<GifsModel, TrendingGifsServiceError>) -> Void) {
         getGifs(offset: 0, completion: completion)
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class GyphyImagePresenter: CellPresenter {
+final class GyphyImagePresenter: CellPresenter {
     let reusableCellClass: Reusable.Type = GyphyViewCell.self
     let id: String
     let url: URL

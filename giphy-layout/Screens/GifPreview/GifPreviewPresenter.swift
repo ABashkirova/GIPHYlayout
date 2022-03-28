@@ -56,11 +56,6 @@ final class GifPreviewPresenter: GifPreviewPresentationOutput {
         }
     }
     
-    func updateImage(data: Data) {
-        interactionInput?.setupImage(model: GifPreviewModel(data: data))
-        self.data = data
-    }
-    
     func didRequestedCopyLinkGif() {
         guard let link = URL(string: model.url) else { return }
         pasteboardService.setLink(link: link)
@@ -90,6 +85,11 @@ final class GifPreviewPresenter: GifPreviewPresentationOutput {
     func didRequestShare() {
         guard let data = data else { return }
         interactionInput?.share(data: data)
+    }
+    
+    private func updateImage(data: Data) {
+        interactionInput?.setupImage(model: GifPreviewModel(data: data))
+        self.data = data
     }
     
     private func saveGif(data: Data) {
