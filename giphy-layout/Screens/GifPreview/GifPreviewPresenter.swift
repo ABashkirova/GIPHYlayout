@@ -74,37 +74,40 @@ final class GifPreviewPresenter: GifPreviewPresentationOutput {
     }
     
     func didRequestToSaveToCameraRoll() {
-        let saveGif = { [weak self, data] in
-            guard let data = data else { return }
-            self?.cameraRollSaver.savePhoto(data: data) { result in
-                switch result {
-                case .success:
-                    self?.interactionInput?.showMessage(.savedToCameraRoll)
-                case .failure:
-                    self?.interactionInput?.showMessage(.failedSaveToCameraRoll)
-                }
-            }
-        }
-        
+        guard let data = data else { return }
         switch permissionService.photoLibraryPermissionStatus() {
         case .denied:
             interactionInput?.openSettings()
         case .authorized:
-            saveGif()
+            saveGif(data: data)
         case .notDetermined:
             permissionService.requestPhotoLibraryPermission { [weak self] status in
-                guard case .authorized = status else {
-                    self?.interactionInput?.openSettings()
-                    return
-                }
-                saveGif()
+                self?.handleReceivedCameraPermission(status, dataToSave: data)
             }
         }
-        
     }
     
     func didRequestShare() {
         guard let data = data else { return }
         interactionInput?.share(data: data)
+    }
+    
+    private func saveGif(data: Data) {
+        cameraRollSaver.savePhoto(data: data) { [weak self] result in
+            switch result {
+            case .success:
+                self?.interactionInput?.showMessage(.savedToCameraRoll)
+            case .failure:
+                self?.interactionInput?.showMessage(.failedSaveToCameraRoll)
+            }
+        }
+    }
+    
+    private func handleReceivedCameraPermission(_ status: PhotoPermissionStatus, dataToSave: Data) {
+        guard case .authorized = status else {
+            interactionInput?.openSettings()
+            return
+        }
+        saveGif(data: dataToSave)
     }
 }

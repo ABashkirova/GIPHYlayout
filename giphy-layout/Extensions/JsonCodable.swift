@@ -14,13 +14,3 @@ extension JSONDecoder {
         return decoder
     }()
 }
-
-extension JSONEncoder {
-    static let `default`: JSONEncoder = {
-        let encoder = JSONEncoder()
-        var formatting: JSONEncoder.OutputFormatting = .prettyPrinted
-        encoder.outputFormatting = formatting
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        return encoder
-    }()
-}

@@ -22,7 +22,7 @@ class GyphyViewCell: CollectionViewCell<GyphyImagePresenter>, NibReusable {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageView.prepareForReuse()
+        startLoadingAnimating()
         imageView.alpha = 0
     }
     
@@ -73,7 +73,7 @@ class GyphyViewCell: CollectionViewCell<GyphyImagePresenter>, NibReusable {
     
     private func addGradientLayer() -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = colorView.frame
+        gradientLayer.frame = colorView.bounds
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
         gradientLayer.colors = [

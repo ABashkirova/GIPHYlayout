@@ -48,8 +48,6 @@ final class GifPreviewViewController: UIViewController, GifPreviewInteractionInp
     }
     
     func setupImage(model: GifPreviewModel) {
-        gifImageView.layoutIfNeeded()
-        gifImageView.updateImageIfNeeded()
         gifImageView.animate(withGIFData: model.data)
     }
     
